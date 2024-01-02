@@ -1,6 +1,11 @@
 pipeline{
     agent any
     stages{
+         stage ('code test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
         stage('Build'){
             steps{
                 sh 'mvn clean package'
@@ -15,7 +20,7 @@ pipeline{
         }
         stage("Deploy into tomcat"){
             steps{
-               deploy adapters: [tomcat9(credentialsId: 'c152d21d-94f0-432c-bedf-2f08bc2ee354', path: '', url: 'http://3.237.80.236:8083/')], contextPath: null, war: '**/*.war'
+                          deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://54.176.196.91:9090/')], contextPath: null, onFailure: false, war: '**/*.war'
             }
         }
     }
